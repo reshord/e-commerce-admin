@@ -15,9 +15,5 @@ export default function Home() {
     }
   }, [isOpen]);
 
-  return (
-    <div className='p-4'>
-      
-    </div>
-  )
+  return null
 }
