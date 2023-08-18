@@ -13,7 +13,7 @@ export default function Home() {
     if(!isOpen) {
       onOpen()
     }
-  }, [isOpen]);
+  }, [isOpen, onOpen]);
 
   return null
 }
