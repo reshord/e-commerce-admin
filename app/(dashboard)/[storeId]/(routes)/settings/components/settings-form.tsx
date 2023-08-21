@@ -1,12 +1,15 @@
 'use client'
 
+import AlertModal from "@/components/modals/alert-modal";
+import ApiAlert from "@/components/ui/api-alert";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useOrigin } from "@/hooks/use-origin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Store } from "@prisma/client";
+import { Billboard, Store } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
@@ -33,6 +36,8 @@ const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
     const router = useRouter()
     const params = useParams()
 
+    const origin = useOrigin()
+
     const form = useForm<SettingsFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: initialData
@@ -58,8 +63,33 @@ const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
         }
     }
 
+    const onDelete = async () => {
+        try {
+            setIsLoading(true)
+
+            await axios.delete(`/api/stores/${params.storeId}`)
+
+            router.refresh()
+            router.push('/')
+
+            toast.success('Store deleted')
+        }
+        catch(e) {
+            toast.error('Make sure you removed all products and categories first')
+        }
+        finally {
+            setIsLoading(false)
+        }
+    }
+
     return ( 
        <>
+            <AlertModal 
+                isOpen={open} 
+                onClose={() => setOpen(false)} 
+                onConfirm={onDelete} 
+                loading={loading}
+            />
             <div className="flex items-center justify-between">
                 <Heading 
                     title="Settings" 
@@ -70,6 +100,7 @@ const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
                     variant="destructive"
                     size="sm"
                     onClick={() => {
+                        setOpen(true)
                     }}
                 >
                     <Trash className="h-4 w-4" />
@@ -102,6 +133,12 @@ const SettingsForm: React.FC<SettingsFormProps> = ({initialData}) => {
                     </Button>
                 </form>
             </Form>
+            <Separator />
+            <ApiAlert 
+                title="NEXT_PUBLIC_API_URL" 
+                description={`${origin}/api/${params.storeId}`} 
+                variant="public"
+            />
        </>
      );
 }

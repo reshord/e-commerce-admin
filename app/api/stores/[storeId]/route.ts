@@ -41,3 +41,33 @@ export async function PATCH(
         return new NextResponse('Internal error', {status: 500})
     }
 }
+
+export async function DELETE(
+    req: Request, 
+    {params}: {params: {storeId: string}}
+) {
+
+    try {
+        const {userId} = auth()
+
+        if(!userId) {
+            return new NextResponse('Unauthenticated', {status: 401})
+        }
+        if(!params.storeId) {
+            return new NextResponse('Store id is required', {status: 401})
+        }
+    
+        const store = await prismadb.store.deleteMany({
+            where: {
+                id: params.storeId,
+                userId
+            }
+        })
+        
+        return NextResponse.json(store)
+    }
+    catch(e) {
+        console.log(e)
+        return new NextResponse('Internal error', {status: 500})
+    }
+}
