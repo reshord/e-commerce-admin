@@ -1,18 +1,16 @@
 'use client'
 
 import AlertModal from "@/components/modals/alert-modal";
-import ApiAlert from "@/components/ui/api-alert";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import Heading from "@/components/ui/heading";
 import ImageUpload from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { useOrigin } from "@/hooks/use-origin";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Billboard, Store } from "@prisma/client";
+import { Billboard } from "@prisma/client";
 import axios from "axios";
-import { Database, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -44,8 +42,6 @@ const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
 
     const router = useRouter()
     const params = useParams()
-
-    const origin = useOrigin()
 
     const form = useForm<BillboardFormValues>({
         resolver: zodResolver(formSchema),
