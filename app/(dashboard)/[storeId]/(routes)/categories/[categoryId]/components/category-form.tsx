@@ -53,7 +53,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({initialData, billboards}) =>
         }
     })
 
-    console.log(billboards)
+    console.log('hello1')
 
     const onSubmit = async (data: CategoryFormValues) => {
         try {
@@ -83,7 +83,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({initialData, billboards}) =>
         try {
             setIsLoading(true)
 
-            await axios.delete(`/api/${params.storeId}/categories/${params.CategoryId}`)
+            await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`)
 
             router.refresh()
             router.push(`/${params.storeId}/categories`)
@@ -91,7 +91,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({initialData, billboards}) =>
             toast.success('Categories deleted')
         }
         catch(e) {
-            toast.error('Make sure you removed all products and categories using this Category first')
+            toast.error('Make sure you removed all products using this Category first')
         }
         finally {
             setIsLoading(false)

@@ -12,6 +12,8 @@ const CategoryPage = async ({
       id: params.categoryId
     }
   });
+  console.log('hello2')
+
 
   return ( 
     <div className="flex-col">

@@ -9,6 +9,9 @@ const newCategoriesPage = async ({params}: {params: {storeId: string}}) => {
         }
     })
 
+    console.log('hello3')
+
+
     return ( 
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
