@@ -50,11 +50,14 @@ model Category {
 }
 
 model Size {
-  id String @id @default(uuid()) @map("_id")
-  storeId String @unique
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  storeId String
   store Store @relation("StoreToSize", fields: [storeId], references: [id])
   name String
   value String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([storeId])
 }
